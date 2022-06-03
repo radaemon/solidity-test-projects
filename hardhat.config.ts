@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import { task } from 'hardhat/config'
 import '@nomiclabs/hardhat-waffle'
 import '@nomiclabs/hardhat-ethers'
+import '@nomiclabs/hardhat-etherscan'
 
 dotenv.config()
 
@@ -36,13 +37,16 @@ export default {
     },
   },
   solidity: {
-    version: '0.8.0',
+    version: '0.8.9',
     settings: {
       optimizer: {
         enabled: true,
         runs: 200,
       },
     },
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_PRIVATE_KEY,
   },
   paths: {
     sources: './contracts',
