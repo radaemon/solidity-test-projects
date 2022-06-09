@@ -46,10 +46,10 @@ contract SavingsBox is Ownable {
     }
 
     function deposit(address saver) public payable returns (uint) {
-        // Look up address in the mapping to determine the index
+        // Look up address (0 means user does not exist)
         uint saverIndex = addressToIndex[saver];
 
-        // NEW SAVER
+        // new user
         if (saverIndex == 0) {
             // push to array
             savers.push(Saver(msg.value, msg.value, 0, block.timestamp, true));
@@ -59,7 +59,6 @@ contract SavingsBox is Ownable {
             return savers[addressToIndex[saver].sub(1)].balance;
         }
 
-        // EXISTING SAVER
         Saver storage existingSaver = savers[saverIndex.sub(1)];
         // user required to deposit >= of his top payment
         require(
@@ -68,7 +67,8 @@ contract SavingsBox is Ownable {
         );
 
         // add the value to his balance
-        uint balance = existingSaver.balance.add(msg.value);
+        uint newBalance = existingSaver.balance.add(msg.value);
+        existingSaver.balance = newBalance;
 
         // if the deposit is > than his last topPayment then
         // adjust topPayment
@@ -82,10 +82,10 @@ contract SavingsBox is Ownable {
         // reset savers last payment
         existingSaver.lastPayment = block.timestamp;
 
-        return balance;
+        return newBalance;
     }
 
-    function withraw(address retiree) public afterTimePeriods {
+    function withdraw(address retiree) public afterTimePeriods {
         // GET USER
         Saver storage saver = savers[addressToIndex[retiree].sub(1)];
 
