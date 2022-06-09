@@ -99,15 +99,15 @@ contract SavingsBox is Ownable {
 
         uint percentageForCharity = latePayments *
             PERCENT_LOST_PER_LATE_PAYMENT;
-        uint percentForUser = 100 - percentageForCharity;
+        uint percentageForUser = 100 - percentageForCharity;
 
         // set user balance to 0
         saver.balance = 0;
         saver.exists = false;
 
         // transfer to user and charity
-        payable(charity).transfer((saver.balance * percentageForCharity) / 100);
-        payable(retiree).transfer((userBalance * percentForUser) / 100);
+        payable(retiree).transfer((userBalance * percentageForUser) / 100);
+        payable(charity).transfer((userBalance * percentageForCharity) / 100);
     }
 
     function changeCharity(address newCharity) public onlyOwner {
