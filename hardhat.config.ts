@@ -3,6 +3,7 @@ import { task } from 'hardhat/config'
 import '@nomiclabs/hardhat-waffle'
 import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-etherscan'
+import '@openzeppelin/hardhat-upgrades'
 
 dotenv.config()
 
